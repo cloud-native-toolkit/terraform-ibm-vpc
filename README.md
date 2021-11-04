@@ -9,6 +9,8 @@ Provisions a VPC instance and related resources. The full list of resources prov
   - *public dns* - `161.26.0.10` and `161.26.0.11`
   - *private dns* - `161.26.0.7` and `161.26.0.8`
 
+**Note:** This module follows the Terraform conventions regarding how provider configuration is defined within the Terraform template and passed into the module - https://www.terraform.io/docs/language/modules/develop/providers.html. The default provider configuration flows through to the module. If different configuration is required for a module, it can be explicitly passed in the `providers` block of the module - https://www.terraform.io/docs/language/modules/develop/providers.html#passing-providers-explicitly.
+
 ## Software dependencies
 
 The module depends on the following software components:
@@ -28,6 +30,20 @@ The module depends on the following software components:
 ## Example usage
 
 ```hcl-terraform
+terraform {
+  required_providers {
+    ibm = {
+      source = "ibm-cloud/ibm"
+    }
+  }
+  required_version = ">= 0.13"
+}
+
+provider "ibm" {
+  ibmcloud_api_key = var.ibmcloud_api_key
+  region = var.region
+}
+
 module "dev_vpc" {
   source = "github.com/cloud-native-toolkit/terraform-ibm-vpc.git?ref=v1.7.2"
   
