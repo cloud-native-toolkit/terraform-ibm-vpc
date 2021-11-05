@@ -44,51 +44,55 @@ resource ibm_is_vpc_address_prefix cidr_prefix {
 }
 
 resource ibm_is_network_acl_rule allow_internal_ingress {
-  network_acl    = data.ibm_is_vpc.vpc.default_network_acl
-  name           = "allow-internal-ingress"
-  action         = "allow"
-  source         = var.internal_cidr
-  destination    = var.internal_cidr
-  direction      = "inbound"
+  network_acl = data.ibm_is_vpc.vpc.default_network_acl
+  name        = "allow-internal-ingress"
+  action      = "allow"
+  source      = var.internal_cidr
+  destination = var.internal_cidr
+  direction   = "inbound"
+  before      = ibm_is_network_acl_rule.allow_internal_egress.id
 }
 
 resource ibm_is_network_acl_rule allow_internal_egress {
-  network_acl    = data.ibm_is_vpc.vpc.default_network_acl
-  name           = "allow-internal-ingress"
-  action         = "allow"
-  source         = var.internal_cidr
-  destination    = var.internal_cidr
-  direction      = "outbound"
+  network_acl = data.ibm_is_vpc.vpc.default_network_acl
+  name        = "allow-internal-ingress"
+  action      = "allow"
+  source      = var.internal_cidr
+  destination = var.internal_cidr
+  direction   = "outbound"
+  before      = ibm_is_network_acl_rule.deny_external_ssh.id
 }
 
 resource ibm_is_network_acl_rule deny_external_ssh {
-  network_acl    = data.ibm_is_vpc.vpc.default_network_acl
-  name           = "deny-external-ssh"
-  action         = "deny"
-  source         = "0.0.0.0/0"
-  destination    = "0.0.0.0/0"
-  direction      = "inbound"
+  network_acl = data.ibm_is_vpc.vpc.default_network_acl
+  name        = "deny-external-ssh"
+  action      = "deny"
+  source      = "0.0.0.0/0"
+  destination = "0.0.0.0/0"
+  direction   = "inbound"
   tcp {
     port_max        = 22
     port_min        = 22
     source_port_max = 22
     source_port_min = 22
   }
+  before      = ibm_is_network_acl_rule.deny_external_rdp.id
 }
 
 resource ibm_is_network_acl_rule deny_external_rdp {
-  network_acl    = data.ibm_is_vpc.vpc.default_network_acl
-  name           = "deny-external-rdp"
-  action         = "deny"
-  source         = "0.0.0.0/0"
-  destination    = "0.0.0.0/0"
-  direction      = "inbound"
+  network_acl = data.ibm_is_vpc.vpc.default_network_acl
+  name        = "deny-external-rdp"
+  action      = "deny"
+  source      = "0.0.0.0/0"
+  destination = "0.0.0.0/0"
+  direction   = "inbound"
   tcp {
     port_max        = 3389
     port_min        = 3389
     source_port_max = 3389
     source_port_min = 3389
   }
+  before = ibm_is_network_acl_rule.deny_external_ingress.id
 }
 
 resource ibm_is_network_acl_rule deny_external_ingress {
