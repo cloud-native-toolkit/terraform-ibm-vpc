@@ -26,11 +26,6 @@ variable "name_prefix" {
   default     = ""
 }
 
-variable "ibmcloud_api_key" {
-  type        = string
-  description = "The IBM Cloud api token"
-}
-
 variable "provision" {
   type        = bool
   description = "Flag indicating that the instance should be provisioned. If false then an existing instance will be looked up"
@@ -53,4 +48,10 @@ variable "base_security_group_name" {
   type        = string
   description = "The name of the base security group. If not provided the name will be based on the vpc name"
   default     = ""
+}
+
+variable "internal_cidr" {
+  type        = string
+  description = "The cidr range of the internal network"
+  default     = "10.0.0.0/8"
 }
