@@ -43,16 +43,6 @@ resource ibm_is_vpc_address_prefix cidr_prefix {
   is_default = count.index < local.zone_count
 }
 
-resource ibm_is_network_acl_rule allow_internal_ingress {
-  network_acl = data.ibm_is_vpc.vpc.default_network_acl
-  name        = "allow-internal-ingress"
-  action      = "allow"
-  source      = var.internal_cidr
-  destination = var.internal_cidr
-  direction   = "inbound"
-  before      = ibm_is_network_acl_rule.allow_internal_egress.id
-}
-
 resource ibm_is_network_acl_rule allow_internal_egress {
   network_acl = data.ibm_is_vpc.vpc.default_network_acl
   name        = "allow-internal-egress"
@@ -60,6 +50,15 @@ resource ibm_is_network_acl_rule allow_internal_egress {
   source      = var.internal_cidr
   destination = var.internal_cidr
   direction   = "outbound"
+}
+
+resource ibm_is_network_acl_rule allow_internal_ingress {
+  network_acl = data.ibm_is_vpc.vpc.default_network_acl
+  name        = "allow-internal-ingress"
+  action      = "allow"
+  source      = var.internal_cidr
+  destination = var.internal_cidr
+  direction   = "inbound"
   before      = ibm_is_network_acl_rule.deny_external_ssh.id
 }
 
