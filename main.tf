@@ -55,7 +55,7 @@ resource ibm_is_network_acl_rule allow_internal_ingress {
 
 resource ibm_is_network_acl_rule allow_internal_egress {
   network_acl = data.ibm_is_vpc.vpc.default_network_acl
-  name        = "allow-internal-ingress"
+  name        = "allow-internal-egress"
   action      = "allow"
   source      = var.internal_cidr
   destination = var.internal_cidr
