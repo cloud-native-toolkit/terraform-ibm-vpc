@@ -59,7 +59,7 @@ resource ibm_is_network_acl_rule allow_internal_ingress {
   source      = var.internal_cidr
   destination = var.internal_cidr
   direction   = "inbound"
-  before      = ibm_is_network_acl_rule.deny_external_ssh.id
+  before      = ibm_is_network_acl_rule.deny_external_ssh.rule_id
 }
 
 resource ibm_is_network_acl_rule deny_external_ssh {
@@ -75,7 +75,7 @@ resource ibm_is_network_acl_rule deny_external_ssh {
     source_port_max = 22
     source_port_min = 22
   }
-  before      = ibm_is_network_acl_rule.deny_external_rdp.id
+  before      = ibm_is_network_acl_rule.deny_external_rdp.rule_id
 }
 
 resource ibm_is_network_acl_rule deny_external_rdp {
@@ -91,7 +91,7 @@ resource ibm_is_network_acl_rule deny_external_rdp {
     source_port_max = 3389
     source_port_min = 3389
   }
-  before = ibm_is_network_acl_rule.deny_external_ingress.id
+  before = ibm_is_network_acl_rule.deny_external_ingress.rule_id
 }
 
 resource ibm_is_network_acl_rule deny_external_ingress {
