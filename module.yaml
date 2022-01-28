@@ -1,6 +1,8 @@
 name: ibm-vpc
 type: terraform
 description: Provisions the IBM Cloud VPC instance with network acls
+interfaces:
+  - github.com/cloud-native-toolkit/automation-modules#ibm-vpc-resource
 tags:
     - infrastructure
     - networking
