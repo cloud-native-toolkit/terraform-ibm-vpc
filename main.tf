@@ -69,14 +69,6 @@ data ibm_is_security_group base {
   name = "${local.vpc_name}-base"
 }
 
-resource null_resource print_sg_name {
-  depends_on = [data.ibm_is_security_group.base]
-
-  provisioner "local-exec" {
-    command = "echo 'SG name: ${data.ibm_is_security_group.base.name}'"
-  }
-}
-
 # from https://cloud.ibm.com/docs/vpc?topic=vpc-service-endpoints-for-vpc
 resource ibm_is_security_group_rule cse_dns_1 {
   count = local.security_group_count
