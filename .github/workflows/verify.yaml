@@ -20,6 +20,9 @@ jobs:
         platform:
           - vpc_count
           - vpc_count_cidr
+        enabled:
+          - true
+          - false
       max-parallel: 1
       fail-fast: false
 
@@ -38,6 +41,7 @@ jobs:
           validateDeployScript: .github/scripts/validate-deploy.sh
         env:
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
+          TF_VAR_enabled: ${{ matrix.enabled }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
 
       - name: Verify destroy on ${{ matrix.platform }}
@@ -47,6 +51,7 @@ jobs:
           clusterId: ${{ matrix.platform }}
         env:
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
+          TF_VAR_enabled: ${{ matrix.enabled }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
 
   verifyMetadata:
