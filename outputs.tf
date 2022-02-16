@@ -40,7 +40,7 @@ output "ids" {
 }
 
 output "base_security_group" {
-  value       = data.ibm_is_security_group.base.id
+  value       = var.enabled ? data.ibm_is_security_group.base[0].id : ""
   description = "The id of the base security group to be shared by other resources. The base group is different from the default security group."
 }
 

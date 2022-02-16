@@ -7,7 +7,7 @@ locals {
   vpc_name          = lower(replace(var.name != "" ? var.name : "${local.prefix_name}-vpc", "_", "-"))
   vpc_id            = lookup(local.vpc, "id", "")
   security_group_count = var.provision ? 2 : 0
-  security_group_ids = var.provision ? [ lookup(local.vpc, "default_security_group", ""), data.ibm_is_security_group.base.id ] : []
+  security_group_ids = var.provision && var.enabled ? [ lookup(local.vpc, "default_security_group", ""), data.ibm_is_security_group.base[0].id ] : []
   acl_id            = lookup(local.vpc, "default_network_acl", "")
   crn               = lookup(local.vpc, "resource_crn", "")
   ipv4_cidr_provided = var.address_prefix_count > 0 && length(var.address_prefixes) >= var.address_prefix_count

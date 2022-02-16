@@ -24,7 +24,7 @@ jobs:
           - true
           - false
       max-parallel: 1
-      fail-fast: false
+      fail-fast: true
 
     env:
       HOME: /home/devops
