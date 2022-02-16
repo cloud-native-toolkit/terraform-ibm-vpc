@@ -130,15 +130,6 @@ data ibm_is_security_group base {
   name = local.base_security_group_name
 }
 
-resource null_resource print_sg_name {
-  count      = var.enabled ? 1 : 0
-  depends_on = [data.ibm_is_security_group.base]
-
-  provisioner "local-exec" {
-    command = "echo 'SG name: ${data.ibm_is_security_group.base.name != null ? data.ibm_is_security_group.base.name : "null"}'"
-  }
-}
-
 # from https://cloud.ibm.com/docs/vpc?topic=vpc-service-endpoints-for-vpc
 resource ibm_is_security_group_rule default_inbound_ping {
   count      = var.enabled ? 1 : 0
