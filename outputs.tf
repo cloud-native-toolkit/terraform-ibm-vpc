@@ -48,3 +48,8 @@ output "addresses" {
   value = [for obj in lookup(local.vpc, "cse_source_addresses[*]", []): obj.address]
   description = "The ip address ranges for the VPC"
 }
+
+output "enabled" {
+  value = var.enabled
+  description = "Flag indicating that the module will provision resources"
+}
