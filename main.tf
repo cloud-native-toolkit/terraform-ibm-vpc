@@ -16,6 +16,7 @@ locals {
   base_security_group_name = var.base_security_group_name != null && var.base_security_group_name != "" ? var.base_security_group_name : "${local.vpc_name}-base"
   vpc               = var.enabled ? data.ibm_is_vpc.vpc[0] : {
     id = ""
+    name = ""
     available_ipv4_address_count = 0
     classic_access = false
     crn = ""
