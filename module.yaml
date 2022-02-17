@@ -17,10 +17,6 @@ versions:
         - source: github.com/cloud-native-toolkit/terraform-ibm-resource-group
           version: ">= 2.1.0"
   variables:
-    - name: resource_group_id
-      moduleRef:
-        id: resource_group
-        output: id
     - name: resource_group_name
       moduleRef:
         id: resource_group
