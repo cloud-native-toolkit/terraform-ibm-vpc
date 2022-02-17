@@ -14,7 +14,26 @@ locals {
   ipv4_cidr_block    = local.ipv4_cidr_provided ? var.address_prefixes : [ for val in range(var.address_prefix_count): "" ]
   provision_cidr     = var.provision && local.ipv4_cidr_provided
   base_security_group_name = var.base_security_group_name != null && var.base_security_group_name != "" ? var.base_security_group_name : "${local.vpc_name}-base"
-  vpc               = var.enabled ? data.ibm_is_vpc.vpc[0] : {}
+  vpc               = var.enabled ? data.ibm_is_vpc.vpc[0] : {
+    id = ""
+    available_ipv4_address_count = 0
+    classic_access = false
+    crn = ""
+    cse_source_addresses = []
+    default_network_acl = ""
+    default_network_acl_name = ""
+    default_security_group = ""
+    default_security_group_crn = ""
+    default_security_group_name = ""
+    default_routing_table = ""
+    default_routing_table_name = ""
+    resource_group = ""
+    security_group = []
+    status = ""
+    subnets = []
+    total_ipv4_address_count = 0
+    tags = []
+  }
 }
 
 resource ibm_is_vpc vpc {
