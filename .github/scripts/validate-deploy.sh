@@ -8,9 +8,9 @@ cat terraform.tfvars
 ENABLED=$(cat .enabled)
 
 if [[ "${ENABLED}" == "false" ]]; then
-  echo "The VPC is not enabled. How do we validation nothing was provisioned?"
+  echo "The VPC is not enabled. Listing terraform state."
 
-  teraform state list
+  terraform state list
   exit 0
 fi
 
