@@ -9,3 +9,9 @@ module "dev_vpc" {
   address_prefixes     = jsondecode(var.address_prefixes)
   enabled              = var.enabled
 }
+
+resource null_resource print_enabled {
+  provisioner "local-exec" {
+    command = "echo -n '${var.enabled}' > .enabled"
+  }
+}
