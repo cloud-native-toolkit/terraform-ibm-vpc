@@ -15,15 +15,19 @@ locals {
   provision_cidr     = var.provision && local.ipv4_cidr_provided
   base_security_group_name = var.base_security_group_name != null && var.base_security_group_name != "" ? var.base_security_group_name : "${local.vpc_name}-base"
   vpc               = try(var.enabled ? data.ibm_is_vpc.vpc[0] : tomap(false), {})
+  resource_group_id = length(data.ibm_resource_group.resource_group) > 0 ? data.ibm_resource_group.resource_group[0].id : ""
 }
 
 resource null_resource print_names {
+  count = var.enabled ? 1 : 0
+
   provisioner "local-exec" {
     command = "echo 'Resource group: ${var.resource_group_name}'"
   }
 }
 
 data ibm_resource_group resource_group {
+  count = var.enabled ? 1 : 0
   depends_on = [null_resource.print_names]
 
   name = var.resource_group_name
@@ -33,7 +37,7 @@ resource ibm_is_vpc vpc {
   count = var.provision && var.enabled ? 1 : 0
 
   name                        = local.vpc_name
-  resource_group              = data.ibm_resource_group.resource_group.id
+  resource_group              = local.resource_group_id
   address_prefix_management   = local.ipv4_cidr_provided ? "manual" : "auto"
   default_security_group_name = "${local.vpc_name}-default"
   default_network_acl_name    = "${local.vpc_name}-default"
@@ -132,7 +136,7 @@ resource ibm_is_security_group base {
 
   name = local.base_security_group_name
   vpc  = lookup(local.vpc, "id", "")
-  resource_group = data.ibm_resource_group.resource_group.id
+  resource_group = local.resource_group_id
 }
 
 data ibm_is_security_group base {
