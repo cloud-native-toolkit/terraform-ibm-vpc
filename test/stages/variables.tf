@@ -57,8 +57,3 @@ variable "address_prefixes" {
 variable "address_prefix_count" {
   default = 0
 }
-
-variable "enabled" {
-  default = true
-  type = bool
-}

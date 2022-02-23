@@ -6,11 +6,4 @@ module "dev_vpc" {
   name_prefix          = var.name_prefix
   address_prefix_count = var.address_prefix_count
   address_prefixes     = jsondecode(var.address_prefixes)
-  enabled              = var.enabled
-}
-
-resource null_resource print_enabled {
-  provisioner "local-exec" {
-    command = "echo -n '${var.enabled}' > .enabled"
-  }
 }
