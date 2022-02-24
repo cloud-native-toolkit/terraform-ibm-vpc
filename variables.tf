@@ -50,9 +50,3 @@ variable "internal_cidr" {
   description = "The cidr range of the internal network"
   default     = "10.0.0.0/8"
 }
-
-variable "enabled" {
-  type        = bool
-  description = "Flag to indicate that IBM VPC module should be enabled"
-  default     = true
-}

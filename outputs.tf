@@ -40,16 +40,11 @@ output "ids" {
 }
 
 output "base_security_group" {
-  value       = var.enabled ? data.ibm_is_security_group.base[0].id : ""
+  value       = data.ibm_is_security_group.base.id
   description = "The id of the base security group to be shared by other resources. The base group is different from the default security group."
 }
 
 output "addresses" {
   value = [for obj in lookup(local.vpc, "cse_source_addresses[*]", []): obj.address]
   description = "The ip address ranges for the VPC"
-}
-
-output "enabled" {
-  value = var.enabled
-  description = "Flag indicating that the module will provision resources"
 }
