@@ -13,7 +13,7 @@ module setup_clis {
   source = "github.com/cloud-native-toolkit/terraform-util-clis.git"
 
   bin_dir = "${path.cwd}/test_bin_dir"
-  clis = ["jq", "ibmcloud"]
+  clis = ["jq", "ibmcloud-is"]
 }
 
 resource local_file bin_dir {
