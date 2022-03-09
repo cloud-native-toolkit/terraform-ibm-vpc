@@ -39,12 +39,27 @@ resource ibm_is_vpc vpc {
   default_security_group_name = "${local.vpc_name}-default"
   default_network_acl_name    = "${local.vpc_name}-default"
   default_routing_table_name  = "${local.vpc_name}-default"
+  tags                        = var.tags
 }
 
 data ibm_is_vpc vpc {
   depends_on = [ibm_is_vpc.vpc]
 
   name = local.vpc_name
+}
+
+resource ibm_resource_tag sg-tag {
+  count = var.provision ? 1 : 0
+  
+  resource_id = local.vpc.default_security_group_crn
+  tags        = var.tags
+}
+
+resource ibm_resource_tag nacl-tag {
+  count = var.provision ? 1 : 0
+
+  resource_id = local.vpc.default_network_acl_crn
+  tags        = var.tags
 }
 
 resource ibm_is_vpc_address_prefix cidr_prefix {
@@ -133,6 +148,7 @@ resource ibm_is_security_group base {
   name = local.base_security_group_name
   vpc  = lookup(local.vpc, "id", "")
   resource_group = local.resource_group_id
+  tags = var.tags
 }
 
 data ibm_is_security_group base {
