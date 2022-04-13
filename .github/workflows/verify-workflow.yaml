@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        platform:
+        testcase:
           - vpc_count
           - vpc_count_cidr
       max-parallel: 1
