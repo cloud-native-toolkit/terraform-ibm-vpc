@@ -48,7 +48,7 @@ data ibm_is_vpc vpc {
 }
 
 resource ibm_is_vpc_address_prefix cidr_prefix {
-  count = local.provision_cidr ? var.address_prefix_count : 0
+  count = var.provision && local.provision_cidr ? var.address_prefix_count : 0
 
   name  = "${local.vpc_name}-cidr-${format("%02s", count.index)}"
   zone  = local.vpc_zone_names[count.index]
@@ -58,6 +58,7 @@ resource ibm_is_vpc_address_prefix cidr_prefix {
 }
 
 resource ibm_is_network_acl_rule allow_internal_egress {
+  count = var.provision ? 1 : 0
 
   network_acl = lookup(local.vpc, "default_network_acl", "")
   name        = "allow-internal-egress"
@@ -68,6 +69,7 @@ resource ibm_is_network_acl_rule allow_internal_egress {
 }
 
 resource ibm_is_network_acl_rule allow_internal_ingress {
+  count = var.provision ? 1 : 0
 
   network_acl = lookup(local.vpc, "default_network_acl", "")
   name        = "allow-internal-ingress"
@@ -75,10 +77,11 @@ resource ibm_is_network_acl_rule allow_internal_ingress {
   source      = var.internal_cidr
   destination = var.internal_cidr
   direction   = "inbound"
-  before      = lookup(ibm_is_network_acl_rule.deny_external_ssh, "rule_id", "")
+  before      = lookup(ibm_is_network_acl_rule.deny_external_ssh[0], "rule_id", "")
 }
 
 resource ibm_is_network_acl_rule deny_external_ssh {
+  count = var.provision ? 1 : 0
 
   network_acl = lookup(local.vpc, "default_network_acl", "")
   name        = "deny-external-ssh"
@@ -92,10 +95,11 @@ resource ibm_is_network_acl_rule deny_external_ssh {
     source_port_max = 22
     source_port_min = 22
   }
-  before      = lookup(ibm_is_network_acl_rule.deny_external_rdp, "rule_id", "")
+  before      = lookup(ibm_is_network_acl_rule.deny_external_rdp[0], "rule_id", "")
 }
 
 resource ibm_is_network_acl_rule deny_external_rdp {
+  count = var.provision ? 1 : 0
 
   network_acl = lookup(local.vpc, "default_network_acl", "")
   name        = "deny-external-rdp"
@@ -109,10 +113,11 @@ resource ibm_is_network_acl_rule deny_external_rdp {
     source_port_max = 3389
     source_port_min = 3389
   }
-  before      = lookup(ibm_is_network_acl_rule.deny_external_ingress, "rule_id", "")
+  before      = lookup(ibm_is_network_acl_rule.deny_external_ingress[0], "rule_id", "")
 }
 
 resource ibm_is_network_acl_rule deny_external_ingress {
+  count = var.provision ? 1 : 0
 
   network_acl    = lookup(local.vpc, "default_network_acl", "")
   name           = "deny-external-ingress"
@@ -138,6 +143,7 @@ data ibm_is_security_group base {
 
 # from https://cloud.ibm.com/docs/vpc?topic=vpc-service-endpoints-for-vpc
 resource ibm_is_security_group_rule default_inbound_ping {
+  count = var.provision ? 1 : 0
 
   group     = lookup(local.vpc, "default_security_group", "")
   direction = "inbound"
@@ -149,6 +155,7 @@ resource ibm_is_security_group_rule default_inbound_ping {
 }
 
 resource ibm_is_security_group_rule default_inbound_http {
+  count = var.provision ? 1 : 0
 
   group     = lookup(local.vpc, "default_security_group", "")
   direction = "inbound"
@@ -161,7 +168,7 @@ resource ibm_is_security_group_rule default_inbound_http {
 }
 
 resource ibm_is_security_group_rule cse_dns_1 {
-  count = local.security_group_count
+  count = var.provision ? local.security_group_count : 0
 
   group     = local.security_group_ids[count.index]
   direction = "outbound"
@@ -173,7 +180,7 @@ resource ibm_is_security_group_rule cse_dns_1 {
 }
 
 resource ibm_is_security_group_rule cse_dns_2 {
-  count = local.security_group_count
+  count = var.provision ? local.security_group_count : 0
 
   group     = local.security_group_ids[count.index]
   direction = "outbound"
@@ -185,7 +192,7 @@ resource ibm_is_security_group_rule cse_dns_2 {
 }
 
 resource ibm_is_security_group_rule private_dns_1 {
-  count = local.security_group_count
+  count = var.provision ? local.security_group_count : 0
 
   group     = local.security_group_ids[count.index]
   direction = "outbound"
@@ -197,7 +204,7 @@ resource ibm_is_security_group_rule private_dns_1 {
 }
 
 resource ibm_is_security_group_rule private_dns_2 {
-  count = local.security_group_count
+  count = var.provision ? local.security_group_count : 0
 
   group     = local.security_group_ids[count.index]
   direction = "outbound"
