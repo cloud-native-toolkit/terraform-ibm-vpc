@@ -1,5 +1,5 @@
 name: ibm-vpc
-registryId: cloud-native-toolkit/vpc/ibm
+#registryId: cloud-native-toolkit/vpc/ibm
 type: terraform
 description: Provisions the IBM Cloud VPC instance with network acls
 interfaces:
