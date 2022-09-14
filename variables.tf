@@ -56,3 +56,9 @@ variable "tags" {
   default     = []
   description = "Tags that should be added to the instance"
 }
+
+variable "common_tags" {
+  type        = list(string)
+  default     = []
+  description = "Common tags that should be added to the instance"
+}

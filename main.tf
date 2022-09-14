@@ -16,6 +16,7 @@ locals {
   base_security_group_name = var.base_security_group_name != null && var.base_security_group_name != "" ? var.base_security_group_name : "${local.vpc_name}-base"
   vpc               = data.ibm_is_vpc.vpc
   resource_group_id = data.ibm_resource_group.resource_group.id
+  tags              = distinct(concat(var.common_tags, var.tags))
 }
 
 resource null_resource print_names {
@@ -39,7 +40,7 @@ resource ibm_is_vpc vpc {
   default_security_group_name = "${local.vpc_name}-default"
   default_network_acl_name    = "${local.vpc_name}-default"
   default_routing_table_name  = "${local.vpc_name}-default"
-  tags                        = var.tags
+  tags                        = local.tags
 }
 
 data ibm_is_vpc vpc {
@@ -52,14 +53,14 @@ resource ibm_resource_tag sg-tag {
   count = var.provision ? 1 : 0
   
   resource_id = local.vpc.default_security_group_crn
-  tags        = var.tags
+  tags        = local.tags
 }
 
 resource ibm_resource_tag nacl-tag {
   count = var.provision ? 1 : 0
 
   resource_id = local.vpc.default_network_acl_crn
-  tags        = var.tags
+  tags        = local.tags
 }
 
 resource ibm_is_vpc_address_prefix cidr_prefix {
@@ -148,7 +149,7 @@ resource ibm_is_security_group base {
   name = local.base_security_group_name
   vpc  = lookup(local.vpc, "id", "")
   resource_group = local.resource_group_id
-  tags = var.tags
+  tags = local.tags
 }
 
 data ibm_is_security_group base {
