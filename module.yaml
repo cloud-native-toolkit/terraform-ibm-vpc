@@ -30,3 +30,4 @@ versions:
       scope: global
     - name: common_tags
       scope: global
+      important: true
