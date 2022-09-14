@@ -15,7 +15,7 @@ versions:
   dependencies:
     - id: resource_group
       refs:
-        - source: github.com/cloud-native-toolkit/terraform-ibm-resource-group
+        - source: github.com/terraform-ibm-modules/terraform-ibm-toolkit-resource-group
           version: ">= 2.1.0"
   variables:
     - name: resource_group_name
@@ -27,4 +27,6 @@ versions:
     - name: name
       scope: module
     - name: name_prefix
+      scope: global
+    - name: common_tags
       scope: global
