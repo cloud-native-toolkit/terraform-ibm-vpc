@@ -2,6 +2,15 @@ name: ibm-vpc
 #registryId: cloud-native-toolkit/vpc/ibm
 type: terraform
 description: Provisions the IBM Cloud VPC instance with network acls
+documentation: |
+  The full list of resources provisioned is as follows:
+
+  - VPC instance
+  - VPC network acl
+  - VPC security group rules
+    - *ping* - icmp type 8
+    - *public dns* - `161.26.0.10` and `161.26.0.11`
+    - *private dns* - `161.26.0.7` and `161.26.0.8`
 interfaces:
   - github.com/cloud-native-toolkit/automation-modules#ibm-vpc-resource
 tags:

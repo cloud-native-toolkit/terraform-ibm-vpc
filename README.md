@@ -1,6 +1,8 @@
 # IBM Cloud VPC module
 
-Provisions a VPC instance and related resources. The full list of resources provisioned is as follows:
+Provisions a VPC instance and related resources. 
+
+The full list of resources provisioned is as follows:
 
 - VPC instance
 - VPC network acl
