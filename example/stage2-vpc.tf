@@ -1,5 +1,5 @@
 module "dev_vpc" {
-  source = "./module"
+  source = "../"
 
   resource_group_name  = module.resource_group.name
   region               = var.region

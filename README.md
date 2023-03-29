@@ -28,7 +28,7 @@ The module depends on the following software components:
 
 ## Example usage
 
-[Refer test cases for more details](test/stages/stage2-vpc.tf)
+[Refer test cases for more details](example/stage2-vpc.tf)
 
 ```hcl-terraform
 terraform {

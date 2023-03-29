@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Verify deploy on ${{ matrix.testcase }}
-        uses: cloud-native-toolkit/action-module-verify-deploy@main
+        uses: cloud-native-toolkit/action-module-verify-deploy@v2
         with:
           clusterId: ${{ matrix.testcase }}
           validateDeployScript: .github/scripts/validate-deploy.sh
@@ -39,7 +39,7 @@ jobs:
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
 
       - name: Verify destroy on ${{ matrix.testcase }}
-        uses: cloud-native-toolkit/action-module-verify-destroy@main
+        uses: cloud-native-toolkit/action-module-verify-destroy@v2
         if: ${{ always() }}
         with:
           clusterId: ${{ matrix.testcase }}

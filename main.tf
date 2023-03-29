@@ -1,8 +1,6 @@
 
 locals {
   tmp_dir           = "${path.cwd}/.tmp"
-  zone_count        = 3
-  vpc_zone_names    = [ for index in range(max(local.zone_count, var.address_prefix_count)): "${var.region}-${(index % local.zone_count) + 1}" ]
   prefix_name       = var.name_prefix != "" && var.name_prefix != null ? var.name_prefix : var.resource_group_name
   vpc_name          = lower(replace(var.name != "" ? var.name : "${local.prefix_name}-vpc", "_", "-"))
   vpc_id            = lookup(local.vpc, "id", "")
@@ -23,6 +21,10 @@ resource null_resource print_names {
   provisioner "local-exec" {
     command = "echo 'Resource group: ${var.resource_group_name}'"
   }
+}
+
+data ibm_is_zones zones {
+  region = var.region
 }
 
 data ibm_resource_group resource_group {
@@ -67,10 +69,10 @@ resource ibm_is_vpc_address_prefix cidr_prefix {
   count = var.provision && local.provision_cidr ? var.address_prefix_count : 0
 
   name  = "${local.vpc_name}-cidr-${format("%02s", count.index)}"
-  zone  = local.vpc_zone_names[count.index]
+  zone  = data.ibm_is_zones.zones.zones[count.index]
   vpc   = lookup(local.vpc, "id", "")
   cidr  = local.ipv4_cidr_block[count.index]
-  is_default = count.index < local.zone_count
+  is_default = count.index < length(data.ibm_is_zones.zones.zones)
 }
 
 resource ibm_is_network_acl_rule allow_internal_egress {
