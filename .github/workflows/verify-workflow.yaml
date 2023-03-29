@@ -32,7 +32,7 @@ jobs:
       - name: Verify deploy on ${{ matrix.testcase }}
         uses: cloud-native-toolkit/action-module-verify-deploy@v2
         with:
-          clusterId: ${{ matrix.testcase }}
+          testcase: ${{ matrix.testcase }}
           validateDeployScript: .github/scripts/validate-deploy.sh
         env:
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
@@ -42,7 +42,7 @@ jobs:
         uses: cloud-native-toolkit/action-module-verify-destroy@v2
         if: ${{ always() }}
         with:
-          clusterId: ${{ matrix.testcase }}
+          testcase: ${{ matrix.testcase }}
         env:
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
