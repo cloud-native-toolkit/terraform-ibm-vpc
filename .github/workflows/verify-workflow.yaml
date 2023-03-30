@@ -11,7 +11,9 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    container: quay.io/cloudnativetoolkit/terraform:v1.1
+    container:
+      image: quay.io/cloudnativetoolkit/terraform:v1.2
+      options: --user devops
 
     strategy:
       matrix:
