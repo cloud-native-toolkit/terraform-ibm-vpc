@@ -16,7 +16,7 @@ The module depends on the following software components:
 
 ### Command-line tools
 
-- terraform - v13
+- terraform - v0.15
 
 ### Terraform providers
 
