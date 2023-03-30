@@ -233,3 +233,14 @@ resource ibm_is_security_group_rule private_dns_2 {
     port_max = 53
   }
 }
+#test
+resource ibm_is_flow_log flowlog_instance {
+  count = length(var.flow_log_cos_bucket_name) > 0 ? 1 : 0
+  depends_on = [ibm_is_vpc.vpc]
+  name = "${local.vpc_name}-flowlog"
+  active = true
+  //target can be VPC or Virtual Server Instance or Subnet or Primary Network Interface or Secondary Network Interface 
+  target = data.ibm_is_vpc.vpc.id
+  resource_group = var.resource_group_id
+  storage_bucket = var.flow_log_cos_bucket_name
+}
