@@ -24,6 +24,8 @@ VPC_NAME="${PREFIX_NAME}-vpc"
 
 ibmcloud login -r "${REGION}" -g "${RESOURCE_GROUP_NAME}" --apikey "${IBMCLOUD_API_KEY}"
 
+ibmcloud is vpc-delete "vpc-count9-vpc" "vpc-count10-vpc" "vpc-count11-vpc" -f
+
 echo "Retrieving VPC_ID for name: ${VPC_NAME}"
 VPC_ID=$(ibmcloud is vpcs | grep "${VPC_NAME}" | sed -E "s/^([A-Za-z0-9-]+).*/\1/g")
 
