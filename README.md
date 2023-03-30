@@ -84,3 +84,4 @@ Assuming the prerequisites have been met, the script can be run by passing the n
 ```
 
 The script will delete all of the resources under the VPC in order then finally delete the VPC instance itself.
+
