@@ -16,11 +16,11 @@ The module depends on the following software components:
 
 ### Command-line tools
 
-- terraform - v13
+- terraform - v0.15
 
 ### Terraform providers
 
-- IBM Cloud provider >= 1.25.0
+- IBM Cloud provider >= 1.51.0
 
 ## Module dependencies
 
@@ -28,7 +28,7 @@ The module depends on the following software components:
 
 ## Example usage
 
-[Refer test cases for more details](test/stages/stage2-vpc.tf)
+[Refer test cases for more details](example/stage2-vpc.tf)
 
 ```hcl-terraform
 terraform {
@@ -84,3 +84,4 @@ Assuming the prerequisites have been met, the script can be run by passing the n
 ```
 
 The script will delete all of the resources under the VPC in order then finally delete the VPC instance itself.
+
