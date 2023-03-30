@@ -11,9 +11,6 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    container:
-      image: quay.io/cloudnativetoolkit/terraform:v1.2
-      options: --user devops
 
     strategy:
       matrix:
@@ -23,13 +20,14 @@ jobs:
       fail-fast: true
       max-parallel: 1
 
-    env:
-      HOME: /home/devops
-
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.2.9
 
       - name: Verify deploy on ${{ matrix.testcase }}
         uses: cloud-native-toolkit/action-module-verify-deploy@v2
